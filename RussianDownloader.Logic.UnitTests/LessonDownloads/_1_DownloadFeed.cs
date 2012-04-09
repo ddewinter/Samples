@@ -11,6 +11,8 @@
     {
         private readonly FeedDownloader _feedDownloader = new FeedDownloader();
 
+        private DownloadFeedState _downloadFeedState = new DownloadFeedState();
+
         [Test]
         public void DownloadFeedSequence_should_issue_web_request_then_convert_to_XElement()
         {
@@ -27,7 +29,7 @@
         public void IssueWebRequest_should_return_input_state()
         {
             // Arrange
-            var state = new DownloadFeedState();
+            var state = _downloadFeedState;
 
             // Act
             DownloadFeedState resultState = FeedDownloader.IssueWebRequest(state);
@@ -40,7 +42,7 @@
         public void IssueWebRequest_should_populate_FeedResponse()
         {
             // Arrange
-            var state = new DownloadFeedState();
+            var state = _downloadFeedState;
 
             // Act
             FeedDownloader.IssueWebRequest(state);
