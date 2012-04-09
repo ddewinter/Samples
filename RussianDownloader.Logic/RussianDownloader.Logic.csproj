@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DownloadFeedState.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="FeedDownloader.cs" />
     <Compile Include="Lesson.cs" />
