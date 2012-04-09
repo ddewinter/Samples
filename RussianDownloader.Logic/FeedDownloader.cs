@@ -4,6 +4,9 @@ using System.Xml.Linq;
 
 namespace RussianDownloader.Logic
 {
+    using System.IO;
+    using System.Threading.Tasks;
+
     public class FeedDownloader
     {
         private readonly Func<DownloadFeedState, DownloadFeedState>[] _downloadFeedSequence =
@@ -20,7 +23,9 @@ namespace RussianDownloader.Logic
 
         internal static DownloadFeedState IssueWebRequest(DownloadFeedState state)
         {
-            throw new NotImplementedException();
+            state.FeedResponse = Task<Stream>.Factory.StartNew(taskState => null, null);
+
+            return state;
         }
 
         internal static DownloadFeedState ConvertStreamToXml(DownloadFeedState state)

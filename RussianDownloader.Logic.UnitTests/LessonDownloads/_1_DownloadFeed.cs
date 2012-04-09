@@ -6,6 +6,9 @@ using NUnit.Framework;
 
 namespace RussianDownloader.Logic.UnitTests.LessonDownloads
 {
+    using System.IO;
+    using System.Threading.Tasks;
+
     using FluentAssertions;
 
     [TestFixture]
@@ -24,6 +27,20 @@ namespace RussianDownloader.Logic.UnitTests.LessonDownloads
                     FeedDownloader.IssueWebRequest,
                     FeedDownloader.ConvertStreamToXml
                 });
+        }
+
+        [Test]
+        public void IssueWebRequest_should_populate_FeedResponse()
+        {
+            // Arrange
+            var subjectUnderTest = new FeedDownloader();
+            var state = new DownloadFeedState();
+
+            // Act
+            var resultState = FeedDownloader.IssueWebRequest(state);
+
+            // Assert
+            state.FeedResponse.Should().NotBeNull();
         }
     }
 }
