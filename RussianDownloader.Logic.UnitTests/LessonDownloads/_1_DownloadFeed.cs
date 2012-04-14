@@ -23,7 +23,7 @@
                 new Dictionary<Location, Task<Stream>>
                     {
                         {
-                            new Location(FeedDownloader.PremiumFeedUrl),
+                            new Location(FeedDownloader.PremiumFeedUrl, new NetworkCredential("daviddewinter3985", "Fr4M3w0RK024")),
                             EmptyResource
                         }
                     });
@@ -49,10 +49,11 @@
         public void IssueWebRequest_should_return_input_state()
         {
             // Arrange
+            FeedDownloader subjectUnderTest = _feedDownloader;
             DownloadFeedState state = _downloadFeedState;
 
             // Act
-            DownloadFeedState resultState = _feedDownloader.IssueWebRequest(state);
+            DownloadFeedState resultState = subjectUnderTest.IssueWebRequest(state);
 
             // Assert
             resultState.Should().Be(state);
