@@ -23,7 +23,7 @@
                 new Dictionary<Location, Task<Stream>>
                     {
                         {
-                            new Location(FeedDownloader.PremiumFeedUrl, new NetworkCredential("daviddewinter3985", "Fr4M3w0RK024")),
+                            new Location(FeedDownloader.PremiumFeedUrl, Credentials.RussianCredentials),
                             EmptyResource
                         }
                     });
@@ -57,19 +57,6 @@
 
             // Assert
             resultState.Should().Be(state);
-        }
-
-        [Test]
-        public void IssueWebRequest_should_populate_FeedResponse()
-        {
-            // Arrange
-            DownloadFeedState state = _downloadFeedState;
-
-            // Act
-            _feedDownloader.IssueWebRequest(state);
-
-            // Assert
-            state.FeedResponse.Should().NotBeNull();
         }
 
         [Test]
