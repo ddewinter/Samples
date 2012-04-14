@@ -20,7 +20,7 @@
         {
             var subjectUnderTest = new UrlResourceAccessor();
 
-            var stream = subjectUnderTest.GetResourceStream("http://www.example.com");
+            var stream = subjectUnderTest.GetResourceStream(new Location("http://www.example.com"));
 
             var result = new StreamReader(stream.Result).ReadToEnd();
 

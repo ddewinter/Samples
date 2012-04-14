@@ -20,10 +20,10 @@
 
         private static readonly DictionaryResourceAccessor DictionaryResourceAccessor =
             new DictionaryResourceAccessor(
-                new Dictionary<string, Task<Stream>>
+                new Dictionary<Location, Task<Stream>>
                     {
                         {
-                            FeedDownloader.PremiumFeedUrl,
+                            new Location(FeedDownloader.PremiumFeedUrl),
                             EmptyResource
                         }
                     });

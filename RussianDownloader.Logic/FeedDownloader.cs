@@ -46,7 +46,7 @@ namespace RussianDownloader.Logic
 
         internal DownloadFeedState IssueWebRequest(DownloadFeedState state)
         {
-            state.FeedResponse = _resourceAccessor.GetResourceStream(PremiumFeedUrl);
+            state.FeedResponse = _resourceAccessor.GetResourceStream(new Location(PremiumFeedUrl));
 
             return state;
         }

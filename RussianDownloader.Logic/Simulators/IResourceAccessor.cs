@@ -5,6 +5,6 @@ namespace RussianDownloader.Logic.Simulators
 
     public interface IResourceAccessor
     {
-        Task<Stream> GetResourceStream(string resourceLocation);
+        Task<Stream> GetResourceStream(Location resourceLocation);
     }
 }

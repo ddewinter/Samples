@@ -6,9 +6,9 @@ namespace RussianDownloader.Logic.Simulators
 
     public class UrlResourceAccessor : IResourceAccessor
     {
-        public Task<Stream> GetResourceStream(string resourceLocation)
+        public Task<Stream> GetResourceStream(Location resourceLocation)
         {
-            var request = WebRequest.Create(resourceLocation);
+            var request = WebRequest.Create(resourceLocation.LocationUri);
 
             return Task<Stream>.Factory.FromAsync(
                 request.BeginGetResponse,
