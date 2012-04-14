@@ -3,12 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Net;
     using System.Threading.Tasks;
 
     using FluentAssertions;
 
     using NUnit.Framework;
 
+    using RussianDownloader.Logic.Simulators;
     using RussianDownloader.Logic.UnitTests.Fakes;
 
     [TestFixture]
@@ -70,7 +72,7 @@
         }
 
         [Test]
-        public void IssueWebRequest_should_invoke_resource_accessor_with_correct_url()
+        public void IssueWebRequest_should_invoke_resource_accessor_with_correct_url_and_credentials()
         {
             // Arrange
             FeedDownloader subjectUnderTest = _feedDownloader;
@@ -81,6 +83,32 @@
 
             // Assert
             state.FeedResponse.Should().Be(EmptyResource);
+        }
+
+        [Test]
+        public void New_Location_should_set_location_uri()
+        {
+            // Arrange
+            var locationUri = "locationUri";
+
+            // Act
+            var subjectUnderTest = new Location(locationUri);
+
+            // Assert
+            subjectUnderTest.LocationUri.Should().Be(locationUri);
+        }
+
+        [Test]
+        public void New_Location_should_set_credentials()
+        {
+            // Arrange
+            var credentials = new NetworkCredential("UserName", "Password");
+
+            // Act
+            var subjectUnderTest = new Location("uri", credentials);
+
+            // Assert
+            subjectUnderTest.Credentials.Should().Be(credentials);
         }
     }
 }
