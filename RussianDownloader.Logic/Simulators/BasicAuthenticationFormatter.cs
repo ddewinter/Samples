@@ -8,6 +8,11 @@ namespace RussianDownloader.Logic.Simulators
     {
         public static string FormatHeader(NetworkCredential credentials)
         {
+            if (credentials == null)
+            {
+                throw new ArgumentNullException("credentials");
+            }
+
             var authInfo = credentials.UserName + ":" + credentials.Password;
             return Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
         }

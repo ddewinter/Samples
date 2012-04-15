@@ -128,5 +128,15 @@
             var decoded = Encoding.Default.GetString(Convert.FromBase64String(header));
             decoded.Should().Be(string.Format("{0}:{1}", userName, password));
         }
+
+        [Test]
+        public void BasicAuthenticationFormatter_should_throw_if_credentials_are_null()
+        {
+            // Arrange
+            Action a = () => BasicAuthenticationFormatter.FormatHeader(null);
+
+            // Act, Assert
+            a.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("credentials");
+        }
     }
 }
