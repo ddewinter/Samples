@@ -132,11 +132,24 @@
         [Test]
         public void BasicAuthenticationFormatter_should_throw_if_credentials_are_null()
         {
-            // Arrange
+            // Act
             Action a = () => BasicAuthenticationFormatter.FormatHeader(null);
 
-            // Act, Assert
+            // Assert
             a.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("credentials");
+        }
+
+        [Test]
+        public void BasicAuthenticationFormatter_should_throw_if_user_name_contains_colon()
+        {
+            // Arrange
+            var credentials = new NetworkCredential { UserName = "User:Name", Password = "Password" };
+
+            // Act
+            Action a = () => BasicAuthenticationFormatter.FormatHeader(credentials);
+
+            // Assert
+            a.ShouldThrow<ArgumentException>().And.ParamName.Should().Be("credentials");
         }
     }
 }

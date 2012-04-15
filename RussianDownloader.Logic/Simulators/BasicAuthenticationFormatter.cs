@@ -13,6 +13,11 @@ namespace RussianDownloader.Logic.Simulators
                 throw new ArgumentNullException("credentials");
             }
 
+            if (credentials.UserName.Contains(":"))
+            {
+                throw new ArgumentException("User name cannot contain a colon.", "credentials");
+            }
+
             var authInfo = credentials.UserName + ":" + credentials.Password;
             return Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
         }
