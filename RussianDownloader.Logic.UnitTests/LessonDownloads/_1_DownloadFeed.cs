@@ -119,9 +119,10 @@
             // Arrange
             var userName = "UserName";
             var password = "Password";
+            var credentials = new NetworkCredential(userName, password);
 
             // Act
-            var header = BasicAuthenticationFormatter.FormatHeader(userName, password);
+            var header = BasicAuthenticationFormatter.FormatHeader(credentials);
 
             // Assert
             var decoded = Encoding.Default.GetString(Convert.FromBase64String(header));
