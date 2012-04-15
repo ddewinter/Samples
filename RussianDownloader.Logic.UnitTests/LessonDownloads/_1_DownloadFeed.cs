@@ -160,10 +160,10 @@
             var password = "Password";
 
             // Act
-            var credentials = new Credentials(userName, password);
+            var subjectUnderTest = new Credentials(userName, password);
 
             // Assert
-            credentials.UserName.Should().Be(userName);
+            subjectUnderTest.UserName.Should().Be(userName);
         }
 
         [Test]
@@ -174,10 +174,33 @@
             var password = "Password";
 
             // Act
-            var credentials = new Credentials(userName, password);
+            var subjectUnderTest = new Credentials(userName, password);
 
             // Assert
-            credentials.Password.Should().Be(password);
+            subjectUnderTest.Password.Should().Be(password);
+        }
+
+        [Test]
+        public void GetResourceStream_authenticates_with_credentials()
+        {
+            // Arrange
+            var userName = "David";
+            var password = "P4ssw0rd";
+            var credentials = new Credentials(userName, password);
+            var fakeWebRequest = new FakeRequest();
+
+            var subjectUnderTest = new UrlResourceAccessor();
+
+            // Act
+            subjectUnderTest.AddBasicAuthenticationHeader(fakeWebRequest, credentials);
+
+            // Assert
+            fakeWebRequest.Headers.Keys.Should().Contain(HttpRequestHeader.Authorization.ToString());
+
+            var header = fakeWebRequest.Headers[HttpRequestHeader.Authorization.ToString()];
+            var decoded = Encoding.Default.GetString(Convert.FromBase64String(header));
+
+            decoded.Should().Be(string.Format("{0}:{1}", userName, password));
         }
     }
 }
