@@ -24,7 +24,7 @@
                 new Dictionary<Location, Task<Stream>>
                     {
                         {
-                            new Location(FeedDownloader.PremiumFeedUrl, Credentials.RussianCredentials),
+                            new Location(FeedDownloader.PremiumFeedUrl, SiteCredentials.RussianCredentials),
                             EmptyResource
                         }
                     });
@@ -91,7 +91,7 @@
         public void New_Location_should_set_credentials()
         {
             // Arrange
-            var credentials = new NetworkCredential("UserName", "Password");
+            var credentials = new Credentials("UserName", "Password");
 
             // Act
             var subjectUnderTest = new Location("uri", credentials);
@@ -119,7 +119,7 @@
             // Arrange
             var userName = "UserName";
             var password = "Password";
-            var credentials = new NetworkCredential(userName, password);
+            var credentials = new Credentials(userName, password);
 
             // Act
             var header = BasicAuthenticationFormatter.FormatHeader(credentials);
@@ -143,13 +143,41 @@
         public void BasicAuthenticationFormatter_should_throw_if_user_name_contains_colon()
         {
             // Arrange
-            var credentials = new NetworkCredential { UserName = "User:Name", Password = "Password" };
+            var credentials = new Credentials("User:Name", "Password");
 
             // Act
             Action a = () => BasicAuthenticationFormatter.FormatHeader(credentials);
 
             // Assert
             a.ShouldThrow<ArgumentException>().And.ParamName.Should().Be("credentials");
+        }
+
+        [Test]
+        public void New_Credentials_sets_user_name()
+        {
+            // Arrange
+            var userName = "UserName";
+            var password = "Password";
+
+            // Act
+            var credentials = new Credentials(userName, password);
+
+            // Assert
+            credentials.UserName.Should().Be(userName);
+        }
+
+        [Test]
+        public void New_Credentials_sets_password()
+        {
+            // Arrange
+            var userName = "UserName";
+            var password = "Password";
+
+            // Act
+            var credentials = new Credentials(userName, password);
+
+            // Assert
+            credentials.Password.Should().Be(password);
         }
     }
 }

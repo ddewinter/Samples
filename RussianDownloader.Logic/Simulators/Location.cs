@@ -10,7 +10,7 @@ namespace RussianDownloader.Logic.Simulators
         {
         }
 
-        public Location(string locationUri, NetworkCredential credentials)
+        public Location(string locationUri, Credentials credentials)
         {
             LocationUri = locationUri;
             Credentials = credentials;
@@ -18,7 +18,7 @@ namespace RussianDownloader.Logic.Simulators
 
         public string LocationUri { get; set; }
 
-        public NetworkCredential Credentials { get; set; }
+        public Credentials Credentials { get; set; }
 
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.

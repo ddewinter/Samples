@@ -1,17 +1,15 @@
 namespace RussianDownloader.Logic
 {
-    using System.Net;
-
     public class Credentials
     {
-        private static NetworkCredential _russianCredentials = new NetworkCredential("daviddewinter3985", "Fr4M3w0RK024");
-
-        public static NetworkCredential RussianCredentials
+        public Credentials(string userName, string password)
         {
-            get
-            {
-                return _russianCredentials;
-            }
+            UserName = userName;
+            Password = password;
         }
+
+        public string UserName { get; set; }
+
+        public string Password { get; set; }
     }
 }

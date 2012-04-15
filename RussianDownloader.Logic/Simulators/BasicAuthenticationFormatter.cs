@@ -6,7 +6,7 @@ namespace RussianDownloader.Logic.Simulators
 
     public static class BasicAuthenticationFormatter
     {
-        public static string FormatHeader(NetworkCredential credentials)
+        public static string FormatHeader(Credentials credentials)
         {
             if (credentials == null)
             {
