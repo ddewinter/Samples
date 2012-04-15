@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Net;
+    using System.Text;
     using System.Threading.Tasks;
 
     using FluentAssertions;
@@ -110,6 +111,21 @@
 
             // Assert
             a.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("resourceLocation");
+        }
+
+        [Test]
+        public void BasicAuthenticationFormatter_should_base64_encode_user_name_and_password()
+        {
+            // Arrange
+            var userName = "UserName";
+            var password = "Password";
+
+            // Act
+            var header = BasicAuthenticationFormatter.FormatHeader(userName, password);
+
+            // Assert
+            var decoded = Encoding.Default.GetString(Convert.FromBase64String(header));
+            decoded.Should().Be(string.Format("{0}:{1}", userName, password));
         }
     }
 }
