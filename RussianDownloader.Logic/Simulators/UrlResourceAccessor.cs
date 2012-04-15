@@ -1,5 +1,6 @@
 namespace RussianDownloader.Logic.Simulators
 {
+    using System;
     using System.IO;
     using System.Net;
     using System.Threading.Tasks;
@@ -8,6 +9,11 @@ namespace RussianDownloader.Logic.Simulators
     {
         public Task<Stream> GetResourceStream(Location resourceLocation)
         {
+            if (resourceLocation == null)
+            {
+                throw new ArgumentNullException("resourceLocation");
+            }
+
             var request = WebRequest.Create(resourceLocation.LocationUri);
 
             return Task<Stream>.Factory.FromAsync(

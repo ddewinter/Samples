@@ -98,5 +98,18 @@
             // Assert
             subjectUnderTest.Credentials.Should().Be(credentials);
         }
+
+        [Test]
+        public void GetResourceStream_should_throw_when_location_is_null()
+        {
+            // Arrange
+            var subjectUnderTest = new UrlResourceAccessor();
+
+            // Act
+            Action a = () => subjectUnderTest.GetResourceStream(null);
+
+            // Assert
+            a.ShouldThrow<ArgumentNullException>().And.ParamName.Should().Be("resourceLocation");
+        }
     }
 }
