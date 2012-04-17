@@ -215,5 +215,21 @@
             fakeRequest.Headers.Keys.Should().Contain(header);
             fakeRequest.Headers[header].Should().Be(headerValue);
         }
+
+        [Test]
+        public void ResourceAccessorOptions_indexer_should_return_custom_options()
+        {
+            // Arrange
+            var subjectUnderTest = new ResourceAccessorOptions();
+            var header = "Foo";
+            var headerValue = "Bar";
+            subjectUnderTest[header] = headerValue;
+
+            // Act
+            var actual = subjectUnderTest[header];
+
+            // Assert
+            actual.Should().Be(headerValue);
+        }
     }
 }

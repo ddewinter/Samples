@@ -12,7 +12,7 @@ namespace RussianDownloader.Logic.Simulators
         {
             get
             {
-                throw new NotImplementedException();
+                return _options[header];
             }
             set
             {
