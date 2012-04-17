@@ -125,8 +125,7 @@
             var header = BasicAuthenticationFormatter.FormatHeader(credentials);
 
             // Assert
-            var decoded = Encoding.Default.GetString(Convert.FromBase64String(header));
-            decoded.Should().Be(string.Format("{0}:{1}", userName, password));
+            header.Should().BeBase64DecodedTo(string.Format("{0}:{1}", userName, password));
         }
 
         [Test]
@@ -196,9 +195,7 @@
             fakeWebRequest.Headers.Keys.Should().Contain(HttpRequestHeader.Authorization.ToString());
 
             var header = fakeWebRequest.Headers[HttpRequestHeader.Authorization.ToString()];
-            var decoded = Encoding.Default.GetString(Convert.FromBase64String(header));
-
-            decoded.Should().Be(string.Format("{0}:{1}", userName, password));
+            header.Should().BeBase64DecodedTo(string.Format("{0}:{1}", userName, password));
         }
     }
 }
