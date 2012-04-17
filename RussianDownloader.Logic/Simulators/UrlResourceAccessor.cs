@@ -9,6 +9,11 @@ namespace RussianDownloader.Logic.Simulators
     {
         public Task<Stream> GetResourceStream(Location resourceLocation)
         {
+            return GetResourceStream(resourceLocation, null);
+        }
+
+        public Task<Stream> GetResourceStream(Location resourceLocation, ResourceAccessorOptions options)
+        {
             if (resourceLocation == null)
             {
                 throw new ArgumentNullException("resourceLocation");
@@ -16,6 +21,7 @@ namespace RussianDownloader.Logic.Simulators
 
             var request = WebRequest.Create(resourceLocation.LocationUri);
             AddBasicAuthenticationHeader(request, resourceLocation.Credentials);
+            AddCustomHeaders(request, options);
 
             return Task<Stream>.Factory.FromAsync(
                 request.BeginGetResponse,
@@ -34,9 +40,12 @@ namespace RussianDownloader.Logic.Simulators
 
         internal static void AddCustomHeaders(WebRequest fakeRequest, ResourceAccessorOptions options)
         {
-            foreach (var option in options)
+            if (options != null)
             {
-                fakeRequest.Headers[option.Key] = option.Value;
+                foreach (var option in options)
+                {
+                    fakeRequest.Headers[option.Key] = option.Value;
+                }
             }
         }
     }

@@ -20,5 +20,10 @@ namespace RussianDownloader.Logic.UnitTests.Fakes
         {
             return _source[resourceLocation];
         }
+
+        public Task<Stream> GetResourceStream(Location resourceLocation, ResourceAccessorOptions options)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -212,7 +212,7 @@
         }
 
         [Test]
-        public void AddCustomHeaders_adds_headers_based_on_custom_options()
+        public void AddCustomHeaders_should_add_headers_based_on_custom_options()
         {
             // Arrange
             var fakeRequest = new FakeRequest();
@@ -227,6 +227,19 @@
             // Assert
             fakeRequest.Headers.Keys.Should().Contain(header);
             fakeRequest.Headers[header].Should().Be(headerValue);
+        }
+
+        [Test]
+        public void AddCustomHeaders_should_not_add_headers_if_options_are_null()
+        {
+            // Arrange
+            var fakeRequest = new FakeRequest();
+
+            // Act
+            UrlResourceAccessor.AddCustomHeaders(fakeRequest, null);
+
+            // Assert
+            fakeRequest.Headers.Should().HaveCount(0);
         }
 
         [Test]
