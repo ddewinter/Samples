@@ -8,15 +8,18 @@
 
     public static class StringAssertionExtensions
     {
-        public static void BeBase64DecodedTo(this StringAssertions assertions, string expected)
+        public static void BeBasicAuthorizationHeader(this StringAssertions assertions, string expectedUserName, string expectedPassword)
         {
-            assertions.BeBase64DecodedTo(expected, String.Empty);
+            assertions.BeBasicAuthorizationHeader(expectedUserName, expectedPassword, String.Empty);
         }
 
-        public static void BeBase64DecodedTo(this StringAssertions assertions, string expected, string reason, params object[] reasonArgs)
+        public static void BeBasicAuthorizationHeader(this StringAssertions assertions, string expectedUserName, string expectedPassword, string reason, params object[] reasonArgs)
         {
-            var decoded = Encoding.Default.GetString(Convert.FromBase64String(assertions.Subject));
+            var startText = "Basic ";
+            assertions.Subject.Should().StartWith(startText);
 
+            var expected = string.Format("{0}:{1}", expectedUserName, expectedPassword);
+            var decoded = Encoding.Default.GetString(Convert.FromBase64String(assertions.Subject.Substring(startText.Length)));
             decoded.Should().Be(expected, reason, reasonArgs);
         }
     }

@@ -125,7 +125,7 @@
             var header = BasicAuthenticationFormatter.FormatHeader(credentials);
 
             // Assert
-            header.Should().BeBase64DecodedTo(string.Format("{0}:{1}", userName, password));
+            header.Should().BeBasicAuthorizationHeader(userName, password);
         }
 
         [Test]
@@ -180,7 +180,7 @@
         }
 
         [Test]
-        public void GetResourceStream_authenticates_with_credentials()
+        public void AddBasicAuthenticationHeader_adds_correct_header_based_on_credentials()
         {
             // Arrange
             var userName = "David";
@@ -195,7 +195,7 @@
             fakeWebRequest.Headers.Keys.Should().Contain(HttpRequestHeader.Authorization.ToString());
 
             var header = fakeWebRequest.Headers[HttpRequestHeader.Authorization.ToString()];
-            header.Should().BeBase64DecodedTo(string.Format("{0}:{1}", userName, password));
+            header.Should().BeBasicAuthorizationHeader(userName, password);
         }
     }
 }

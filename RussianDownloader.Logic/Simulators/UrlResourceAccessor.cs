@@ -16,6 +16,11 @@ namespace RussianDownloader.Logic.Simulators
 
             var request = WebRequest.Create(resourceLocation.LocationUri);
 
+            if (resourceLocation.Credentials != null)
+            {
+                AddBasicAuthenticationHeader(request, resourceLocation.Credentials);
+            }
+
             return Task<Stream>.Factory.FromAsync(
                 request.BeginGetResponse,
                 (result) => request.EndGetResponse(result).GetResponseStream(),

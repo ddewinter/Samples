@@ -19,7 +19,7 @@ namespace RussianDownloader.Logic.Simulators
             }
 
             var authInfo = credentials.UserName + ":" + credentials.Password;
-            return Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
+            return "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
         }
     }
 }
