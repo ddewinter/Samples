@@ -6,6 +6,8 @@ namespace RussianDownloader.Logic
 
     using RussianDownloader.Logic.Simulators;
 
+    using System.Linq;
+
     public class FeedDownloader
     {
         internal const string PremiumFeedUrl = "http://www.russianpod101.com/premium_feed/feed.xml";
@@ -36,11 +38,9 @@ namespace RussianDownloader.Logic
 
         public IEnumerable<XElement> DownloadFeed()
         {
-            throw new NotImplementedException();
-        }
+            var state = new DownloadFeedState();
+            _downloadFeedSequence.Aggregate(state, (current, op) => op(current));
 
-        internal static DownloadFeedState ConvertStreamToXml(DownloadFeedState state)
-        {
             throw new NotImplementedException();
         }
 
@@ -49,6 +49,11 @@ namespace RussianDownloader.Logic
             state.FeedResponse = _resourceAccessor.GetResourceStream(new Location(PremiumFeedUrl, SiteCredentials.RussianCredentials));
 
             return state;
+        }
+
+        internal static DownloadFeedState ConvertStreamToXml(DownloadFeedState state)
+        {
+            throw new NotImplementedException();
         }
     }
 }

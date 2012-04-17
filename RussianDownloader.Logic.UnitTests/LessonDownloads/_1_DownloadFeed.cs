@@ -197,5 +197,23 @@
             var header = fakeWebRequest.Headers[HttpRequestHeader.Authorization.ToString()];
             header.Should().BeBasicAuthorizationHeader(userName, password);
         }
+
+        [Test]
+        public void AddCustomHeaders_adds_headers_based_on_custom_options()
+        {
+            // Arrange
+            var fakeRequest = new FakeRequest();
+            var options = new ResourceAccessorOptions();
+            var header = "Foo";
+            var headerValue = "Bar";
+            options[header] = headerValue;
+
+            // Act
+            UrlResourceAccessor.AddCustomHeaders(fakeRequest, options);
+
+            // Assert
+            fakeRequest.Headers.Keys.Should().Contain(header);
+            fakeRequest.Headers[header].Should().Be(headerValue);
+        }
     }
 }

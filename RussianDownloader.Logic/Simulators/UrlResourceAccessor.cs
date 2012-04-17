@@ -31,5 +31,13 @@ namespace RussianDownloader.Logic.Simulators
         {
             webRequest.Headers[HttpRequestHeader.Authorization] = BasicAuthenticationFormatter.FormatHeader(credentials);
         }
+
+        public static void AddCustomHeaders(WebRequest fakeRequest, ResourceAccessorOptions options)
+        {
+            foreach (var option in options)
+            {
+                fakeRequest.Headers[option.Key] = option.Value;
+            }
+        }
     }
 }
