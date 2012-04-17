@@ -22,7 +22,7 @@ namespace RussianDownloader.Logic.Simulators
                 null);
         }
 
-        internal void AddBasicAuthenticationHeader(WebRequest webRequest, Credentials credentials)
+        internal static void AddBasicAuthenticationHeader(WebRequest webRequest, Credentials credentials)
         {
             webRequest.Headers[HttpRequestHeader.Authorization] = BasicAuthenticationFormatter.FormatHeader(credentials);
         }

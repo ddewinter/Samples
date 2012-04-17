@@ -189,10 +189,8 @@
             var credentials = new Credentials(userName, password);
             var fakeWebRequest = new FakeRequest();
 
-            var subjectUnderTest = new UrlResourceAccessor();
-
             // Act
-            subjectUnderTest.AddBasicAuthenticationHeader(fakeWebRequest, credentials);
+            UrlResourceAccessor.AddBasicAuthenticationHeader(fakeWebRequest, credentials);
 
             // Assert
             fakeWebRequest.Headers.Keys.Should().Contain(HttpRequestHeader.Authorization.ToString());

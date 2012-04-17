@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fakes\DictionaryResourceAccessor.cs" />
+    <Compile Include="Fakes\FakeRequest.cs" />
     <Compile Include="LessonDownloads\_1_DownloadFeed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
