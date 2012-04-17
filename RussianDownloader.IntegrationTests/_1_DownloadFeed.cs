@@ -17,18 +17,6 @@
     public class _1_DownloadFeed
     {
         [Test]
-        public void UrlResourceAccessor_should_request_uri()
-        {
-            var subjectUnderTest = new UrlResourceAccessor();
-
-            var stream = subjectUnderTest.GetResourceStream(new Location("http://www.example.com"));
-
-            var result = new StreamReader(stream.Result).ReadToEnd();
-
-            result.Should().Contain("iana");
-        }
-
-        [Test]
         public void UrlResourceAccessor_should_request_uri_with_credentials()
         {
             var subjectUnderTest = new UrlResourceAccessor();
