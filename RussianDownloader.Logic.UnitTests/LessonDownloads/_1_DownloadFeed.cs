@@ -19,20 +19,19 @@
     {
         private static Task<Stream> EmptyResource = Task<Stream>.Factory.StartNew(state => null, null);
 
-        private static readonly DictionaryResourceAccessor DictionaryResourceAccessor =
-            new DictionaryResourceAccessor(
-                new Dictionary<Location, Task<Stream>>
-                    {
-                        {
-                            new Location(FeedDownloader.PremiumFeedUrl, SiteCredentials.RussianCredentials),
-                            EmptyResource
-                        }
-                    });
+        private static Dictionary<Location, Task<Stream>> _resources = new Dictionary<Location, Task<Stream>>
+            {
+                {
+                    new Location(FeedDownloader.PremiumFeedUrl, SiteCredentials.RussianCredentials),
+                    EmptyResource
+                }
+            };
+
+        private static readonly DictionaryResourceAccessor DictionaryResourceAccessor = new DictionaryResourceAccessor(_resources);
 
         private readonly DownloadFeedState _downloadFeedState = new DownloadFeedState();
 
         private readonly FeedDownloader _feedDownloader = new FeedDownloader(DictionaryResourceAccessor);
-
 
         [Test]
         public void DownloadFeedSequence_should_issue_web_request_then_convert_to_XElement()
@@ -42,8 +41,7 @@
 
             // Assert
             subjectUnderTest.DownloadFeedSequence.Should().Equal(
-                new Func<DownloadFeedState, DownloadFeedState>[]
-                    { subjectUnderTest.IssueWebRequest, FeedDownloader.ConvertStreamToXml });
+                new Func<DownloadFeedState, DownloadFeedState>[] { subjectUnderTest.IssueWebRequest, FeedDownloader.ConvertStreamToXml });
         }
 
         [Test]
@@ -256,6 +254,20 @@
 
             // Assert
             actual.Should().Be(headerValue);
+        }
+
+        [Test]
+        public void IssueWebRequest_should_request_resource_stream_with_iTunes_user_agent()
+        {
+            // Arrange
+            var subjectUnderTest = new FeedDownloader(new ITunesOnlyDictionaryResourceAccessor(_resources));
+            var state = _downloadFeedState;
+
+            // Act
+            var response = subjectUnderTest.IssueWebRequest(state);
+
+            // Assert
+            response.FeedResponse.Should().Be(EmptyResource);
         }
     }
 }

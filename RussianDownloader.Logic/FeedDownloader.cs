@@ -46,7 +46,12 @@ namespace RussianDownloader.Logic
 
         internal DownloadFeedState IssueWebRequest(DownloadFeedState state)
         {
-            state.FeedResponse = _resourceAccessor.GetResourceStream(new Location(PremiumFeedUrl, SiteCredentials.RussianCredentials));
+            var options = new ResourceAccessorOptions();
+            options["User-Agent"] = ITunesUserAgent;
+
+            state.FeedResponse = _resourceAccessor.GetResourceStream(
+                new Location(PremiumFeedUrl, SiteCredentials.RussianCredentials),
+                options);
 
             return state;
         }
@@ -55,5 +60,7 @@ namespace RussianDownloader.Logic
         {
             throw new NotImplementedException();
         }
+
+        public const string ITunesUserAgent = "iTunes/10.6.1 (Windows; Microsoft Windows 7 x64 Enterprise Edition Service Pack 1 (Build 7601)) AppleWebKit/534.54.16";
     }
 }

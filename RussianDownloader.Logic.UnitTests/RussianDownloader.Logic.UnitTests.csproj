@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Fakes\DictionaryResourceAccessor.cs" />
     <Compile Include="Fakes\FakeRequest.cs" />
+    <Compile Include="Fakes\ITunesOnlyDictionaryResourceAccessor.cs" />
     <Compile Include="LessonDownloads\_1_DownloadFeed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringAssertionExtensions.cs" />
