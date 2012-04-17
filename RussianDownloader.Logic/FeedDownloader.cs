@@ -11,6 +11,7 @@ namespace RussianDownloader.Logic
     public class FeedDownloader
     {
         internal const string PremiumFeedUrl = "http://www.russianpod101.com/premium_feed/feed.xml";
+        internal const string ITunesUserAgent = "iTunes/10.6.1 (Windows; Microsoft Windows 7 x64 Enterprise Edition Service Pack 1 (Build 7601)) AppleWebKit/534.54.16";
 
         private readonly Func<DownloadFeedState, DownloadFeedState>[] _downloadFeedSequence;
 
@@ -60,7 +61,5 @@ namespace RussianDownloader.Logic
         {
             throw new NotImplementedException();
         }
-
-        public const string ITunesUserAgent = "iTunes/10.6.1 (Windows; Microsoft Windows 7 x64 Enterprise Edition Service Pack 1 (Build 7601)) AppleWebKit/534.54.16";
     }
 }
