@@ -180,21 +180,34 @@
         }
 
         [Test]
-        public void AddBasicAuthenticationHeader_adds_correct_header_based_on_credentials()
+        public void AddBasicAuthenticationHeader_should_not_add_header_without_credentials()
+        {
+            // Arrange
+            var fakeRequest = new FakeRequest();
+
+            // Act
+            UrlResourceAccessor.AddBasicAuthenticationHeader(fakeRequest, null);
+
+            // Assert
+            fakeRequest.Headers.Should().HaveCount(0);
+        }
+
+        [Test]
+        public void AddBasicAuthenticationHeader_should_add_Authorization_header_based_on_credentials()
         {
             // Arrange
             var userName = "David";
             var password = "P4ssw0rd";
             var credentials = new Credentials(userName, password);
-            var fakeWebRequest = new FakeRequest();
+            var fakeRequest = new FakeRequest();
 
             // Act
-            UrlResourceAccessor.AddBasicAuthenticationHeader(fakeWebRequest, credentials);
+            UrlResourceAccessor.AddBasicAuthenticationHeader(fakeRequest, credentials);
 
             // Assert
-            fakeWebRequest.Headers.Keys.Should().Contain(HttpRequestHeader.Authorization.ToString());
+            fakeRequest.Headers.Keys.Should().Contain(HttpRequestHeader.Authorization.ToString());
 
-            var header = fakeWebRequest.Headers[HttpRequestHeader.Authorization.ToString()];
+            var header = fakeRequest.Headers[HttpRequestHeader.Authorization.ToString()];
             header.Should().BeBasicAuthorizationHeader(userName, password);
         }
 

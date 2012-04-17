@@ -15,11 +15,7 @@ namespace RussianDownloader.Logic.Simulators
             }
 
             var request = WebRequest.Create(resourceLocation.LocationUri);
-
-            if (resourceLocation.Credentials != null)
-            {
-                AddBasicAuthenticationHeader(request, resourceLocation.Credentials);
-            }
+            AddBasicAuthenticationHeader(request, resourceLocation.Credentials);
 
             return Task<Stream>.Factory.FromAsync(
                 request.BeginGetResponse,
@@ -29,7 +25,11 @@ namespace RussianDownloader.Logic.Simulators
 
         internal static void AddBasicAuthenticationHeader(WebRequest webRequest, Credentials credentials)
         {
-            webRequest.Headers[HttpRequestHeader.Authorization] = BasicAuthenticationFormatter.FormatHeader(credentials);
+            if (credentials != null)
+            {
+                webRequest.Headers[HttpRequestHeader.Authorization] =
+                    BasicAuthenticationFormatter.FormatHeader(credentials);
+            }
         }
 
         internal static void AddCustomHeaders(WebRequest fakeRequest, ResourceAccessorOptions options)
