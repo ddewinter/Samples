@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Credentials.cs" />
+    <Compile Include="PodcastFeedReader.cs" />
     <Compile Include="Simulators\ResourceAccessorOptions.cs" />
     <Compile Include="SiteCredentials.cs" />
     <Compile Include="DownloadFeedState.cs" />

@@ -17,5 +17,16 @@ namespace RussianDownloader.Logic
         {
             return XmlReader.Create(stream);
         }
+
+        public IEnumerable<XElement> ExtractPodcastItemElements(XmlReader reader)
+        {
+            while (reader.Read())
+            {
+                if (reader.LocalName == "item")
+                {
+                    yield return (XElement)XNode.ReadFrom(reader);
+                }
+            }
+        }
     }
 }

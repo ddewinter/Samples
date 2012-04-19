@@ -15,6 +15,8 @@
     using RussianDownloader.Logic.Simulators;
     using RussianDownloader.Logic.UnitTests.Fakes;
 
+    using System.Linq;
+
     [TestFixture]
     public class _1_DownloadFeed
     {
@@ -288,8 +290,7 @@
             // Arrange
             var subjectUnderTest = new PodcastFeedReader();
             var stream =
-                new MemoryStream(
-                    Encoding.Default.GetBytes(@"<?xml version=""1.0""?><rss><item>text</item><item></item></rss>"));
+                new MemoryStream(@"<?xml version=""1.0""?><rss><channel><item>text</item><item></item></channel></rss>".AsBytes());
 
             // Act
             var items = subjectUnderTest.GetPodcastItems(stream);
@@ -318,7 +319,7 @@
         {
             // Arrange
             var subjectUnderTest = new PodcastFeedReader();
-            var stream = new MemoryStream(Encoding.Default.GetBytes(@"<?xml version=""1.0""?>"));
+            var stream = new MemoryStream(@"<?xml version=""1.0""?>".AsBytes());
 
             // Act
             var reader = subjectUnderTest.LoadXmlReader(stream);
@@ -327,6 +328,22 @@
             reader.Read();
 
             reader.NodeType.Should().Be(XmlNodeType.XmlDeclaration);
+        }
+
+        [Test]
+        public void PodcastFeedReader_should_read_items_from_feed()
+        {
+            // Arrange
+            var subjectUnderTest = new PodcastFeedReader();
+            var reader =
+                XmlReader.Create(
+                    new MemoryStream(@"<?xml version=""1.0""?><rss><channel><item>text</item></channel></rss>".AsBytes()));
+
+            // Act
+            var elements = subjectUnderTest.ExtractPodcastItemElements(reader).ToArray();
+
+            // Assert
+            elements.Should().HaveCount(1).And.Contain(elem => elem.Value == "text");
         }
     }
 }
