@@ -47,14 +47,20 @@ namespace RussianDownloader.Logic
 
         internal DownloadFeedState IssueWebRequest(DownloadFeedState state)
         {
-            var options = new ResourceAccessorOptions();
-            options["User-Agent"] = ITunesUserAgent;
+            var options = CreateResourceAccessorOptions();
 
             state.FeedResponse = _resourceAccessor.GetResourceStream(
                 new Location(PremiumFeedUrl, SiteCredentials.RussianCredentials),
                 options);
 
             return state;
+        }
+
+        private static ResourceAccessorOptions CreateResourceAccessorOptions()
+        {
+            var options = new ResourceAccessorOptions();
+            options["User-Agent"] = ITunesUserAgent;
+            return options;
         }
 
         internal static DownloadFeedState ConvertStreamToXml(DownloadFeedState state)

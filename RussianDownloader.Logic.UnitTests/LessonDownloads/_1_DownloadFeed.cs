@@ -269,5 +269,15 @@
             // Assert
             response.FeedResponse.Should().Be(EmptyResource);
         }
+
+        [Test]
+        public void CreateResourceAccessorOptions_should_create_ResourceAccessorOptions_with_iTunes_user_agent()
+        {
+            // Arrange, Act
+            var options = FeedDownloader.CreateResourceAccessorOptions();
+
+            // Assert
+            options["User-Agent"].Should().Be(FeedDownloader.ITunesUserAgent);
+        }
     }
 }
