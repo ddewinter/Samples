@@ -15,7 +15,7 @@ namespace RussianDownloader.Logic.UnitTests.Fakes
 
         public override Task<Stream> GetResourceStream(Location resourceLocation, ResourceAccessorOptions options)
         {
-            if (options != null && options["User-Agent"] == FeedDownloader.ITunesUserAgent)
+            if (options != null && options[FeedDownloader.UserAgentOptionName] == FeedDownloader.ITunesUserAgent)
             {
                 return base.GetResourceStream(resourceLocation, options);
             }

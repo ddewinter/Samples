@@ -6,6 +6,7 @@
     using System.Net;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Xml.Linq;
 
     using FluentAssertions;
 
@@ -256,6 +257,7 @@
             actual.Should().Be(headerValue);
         }
 
+        // TODO: Is this test necessary?
         [Test]
         public void IssueWebRequest_should_request_resource_stream_with_iTunes_user_agent()
         {
@@ -278,6 +280,30 @@
 
             // Assert
             options[FeedDownloader.UserAgentOptionName].Should().Be(FeedDownloader.ITunesUserAgent);
+        }
+
+        [Test, Ignore]
+        public void PodcastFeedReader_should_expose_podcast_items_as_XElements()
+        {
+            // Arrange
+            var subjectUnderTest = new PodcastFeedReader();
+            var stream =
+                new MemoryStream(
+                    Encoding.Default.GetBytes(@"<?xml version=""1.0""><rss><item>text</item><item></item></rss>"));
+
+            // Act
+            var items = subjectUnderTest.GetPodcastItems(stream);
+
+            // Assert
+            items.Should().HaveCount(2);
+        }
+    }
+
+    public class PodcastFeedReader
+    {
+        public IEnumerable<XElement> GetPodcastItems(Stream stream)
+        {
+            throw new NotImplementedException();
         }
     }
 }
