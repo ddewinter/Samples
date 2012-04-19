@@ -4,7 +4,7 @@ namespace RussianDownloader.Logic
 
     public class SiteCredentials
     {
-        private static Credentials _russianCredentials = new Credentials("daviddewinter3985", "Moonraker003");
+        private static Credentials _russianCredentials = new Credentials("daviddewinter3985", "*");
 
         public static Credentials RussianCredentials
         {
