@@ -10,19 +10,19 @@ namespace RussianDownloader.Logic
     {
         public IEnumerable<XElement> GetPodcastItems(Stream stream)
         {
-            throw new NotImplementedException();
+            return ExtractPodcastItemElements(LoadXmlReader(stream));
         }
 
-        internal XmlReader LoadXmlReader(Stream stream)
+        internal static XmlReader LoadXmlReader(Stream stream)
         {
             return XmlReader.Create(stream);
         }
 
-        public IEnumerable<XElement> ExtractPodcastItemElements(XmlReader reader)
+        internal static IEnumerable<XElement> ExtractPodcastItemElements(XmlReader reader)
         {
             while (reader.Read())
             {
-                if (reader.LocalName == "item")
+                while (reader.NodeType == XmlNodeType.Element && reader.LocalName == "item")
                 {
                     yield return (XElement)XNode.ReadFrom(reader);
                 }

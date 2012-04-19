@@ -284,7 +284,8 @@
             options[FeedDownloader.UserAgentOptionName].Should().Be(FeedDownloader.ITunesUserAgent);
         }
 
-        [Test, Ignore]
+        // TODO: Since this test just verifies that steps are stitched together, is this a valuable test?
+        [Test]
         public void PodcastFeedReader_should_expose_podcast_items_as_XElements()
         {
             // Arrange
@@ -307,7 +308,7 @@
             var stream = new MemoryStream();
 
             // Act
-            var reader = subjectUnderTest.LoadXmlReader(stream);
+            var reader = PodcastFeedReader.LoadXmlReader(stream);
 
             // Assert
             Action a = () => reader.Read();
@@ -322,7 +323,7 @@
             var stream = new MemoryStream(@"<?xml version=""1.0""?>".AsBytes());
 
             // Act
-            var reader = subjectUnderTest.LoadXmlReader(stream);
+            var reader = PodcastFeedReader.LoadXmlReader(stream);
 
             // Assert
             reader.Read();
@@ -330,20 +331,35 @@
             reader.NodeType.Should().Be(XmlNodeType.XmlDeclaration);
         }
 
+        // TODO: Are these two tests no longer unit test because they take too long and/or interact with XML parsing? How can this improve?
         [Test]
-        public void PodcastFeedReader_should_read_items_from_feed()
+        public void PodcastFeedReader_should_read_item_from_feed()
         {
             // Arrange
-            var subjectUnderTest = new PodcastFeedReader();
             var reader =
                 XmlReader.Create(
                     new MemoryStream(@"<?xml version=""1.0""?><rss><channel><item>text</item></channel></rss>".AsBytes()));
 
             // Act
-            var elements = subjectUnderTest.ExtractPodcastItemElements(reader).ToArray();
+            var elements = PodcastFeedReader.ExtractPodcastItemElements(reader).ToArray();
 
             // Assert
             elements.Should().HaveCount(1).And.Contain(elem => elem.Value == "text");
+        }
+
+        [Test]
+        public void PodcastFeedReader_should_read_multiple_items_from_feed()
+        {
+            // Arrange
+            var reader =
+                XmlReader.Create(
+                    new MemoryStream(@"<?xml version=""1.0""?><rss><channel><item>text</item><item>as</item></channel></rss>".AsBytes()));
+
+            // Act
+            var elements = PodcastFeedReader.ExtractPodcastItemElements(reader).ToArray();
+
+            // Assert
+            elements.Should().HaveCount(2).And.Contain(elem => elem.Value == "as");
         }
     }
 }
