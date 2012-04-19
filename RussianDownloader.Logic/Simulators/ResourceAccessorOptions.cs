@@ -8,15 +8,15 @@ namespace RussianDownloader.Logic.Simulators
     {
         private Dictionary<string, string> _options = new Dictionary<string, string>();
  
-        public string this[string header]
+        public string this[string optionName]
         {
             get
             {
-                return _options[header];
+                return _options[optionName];
             }
             set
             {
-                _options[header] = value;
+                _options[optionName] = value;
             }
         }
 
