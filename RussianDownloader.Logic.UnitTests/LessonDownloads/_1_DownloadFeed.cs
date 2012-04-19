@@ -6,7 +6,7 @@
     using System.Net;
     using System.Text;
     using System.Threading.Tasks;
-    using System.Xml.Linq;
+    using System.Xml;
 
     using FluentAssertions;
 
@@ -289,7 +289,7 @@
             var subjectUnderTest = new PodcastFeedReader();
             var stream =
                 new MemoryStream(
-                    Encoding.Default.GetBytes(@"<?xml version=""1.0""><rss><item>text</item><item></item></rss>"));
+                    Encoding.Default.GetBytes(@"<?xml version=""1.0""?><rss><item>text</item><item></item></rss>"));
 
             // Act
             var items = subjectUnderTest.GetPodcastItems(stream);
@@ -297,13 +297,36 @@
             // Assert
             items.Should().HaveCount(2);
         }
-    }
 
-    public class PodcastFeedReader
-    {
-        public IEnumerable<XElement> GetPodcastItems(Stream stream)
+        [Test]
+        public void PodcastFeedReader_should_convert_empty_stream_to_XmlReader()
         {
-            throw new NotImplementedException();
+            // Arrange
+            var subjectUnderTest = new PodcastFeedReader();
+            var stream = new MemoryStream();
+
+            // Act
+            var reader = subjectUnderTest.LoadXmlReader(stream);
+
+            // Assert
+            Action a = () => reader.Read();
+            a.ShouldThrow<XmlException>();
+        }
+
+        [Test]
+        public void PodcastFeedReader_should_convert_input_stream_to_XmlReader()
+        {
+            // Arrange
+            var subjectUnderTest = new PodcastFeedReader();
+            var stream = new MemoryStream(Encoding.Default.GetBytes(@"<?xml version=""1.0""?>"));
+
+            // Act
+            var reader = subjectUnderTest.LoadXmlReader(stream);
+
+            // Assert
+            reader.Read();
+
+            reader.NodeType.Should().Be(XmlNodeType.XmlDeclaration);
         }
     }
 }
