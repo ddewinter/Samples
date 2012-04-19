@@ -277,7 +277,7 @@
             var options = FeedDownloader.CreateResourceAccessorOptions();
 
             // Assert
-            options["User-Agent"].Should().Be(FeedDownloader.ITunesUserAgent);
+            options[FeedDownloader.UserAgentOptionName].Should().Be(FeedDownloader.ITunesUserAgent);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace RussianDownloader.Logic
     {
         internal const string PremiumFeedUrl = "http://www.russianpod101.com/premium_feed/feed.xml";
         internal const string ITunesUserAgent = "iTunes/10.6.1 (Windows; Microsoft Windows 7 x64 Enterprise Edition Service Pack 1 (Build 7601)) AppleWebKit/534.54.16";
+        internal const string UserAgentOptionName = "User-Agent";
 
         private readonly Func<DownloadFeedState, DownloadFeedState>[] _downloadFeedSequence;
 
@@ -56,10 +57,10 @@ namespace RussianDownloader.Logic
             return state;
         }
 
-        private static ResourceAccessorOptions CreateResourceAccessorOptions()
+        internal static ResourceAccessorOptions CreateResourceAccessorOptions()
         {
             var options = new ResourceAccessorOptions();
-            options["User-Agent"] = ITunesUserAgent;
+            options[UserAgentOptionName] = ITunesUserAgent;
             return options;
         }
 
