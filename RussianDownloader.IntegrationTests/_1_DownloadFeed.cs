@@ -25,7 +25,7 @@
                 subjectUnderTest.GetResourceStream(
                     new Location(
                         "http://www.russianpod101.com/premium_feed/feed.xml",
-                        new Credentials("daviddewinter3985", "Moonraker003")));
+                        SiteCredentials.RussianCredentials));
 
             using (var streamReader = new StreamReader(stream.Result))
             {
