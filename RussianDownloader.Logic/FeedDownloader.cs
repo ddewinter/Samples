@@ -38,12 +38,13 @@ namespace RussianDownloader.Logic
             }
         }
 
+        // TODO: Can this and should this be unit tested?
         public IEnumerable<XElement> DownloadFeed()
         {
             var state = new DownloadFeedState();
             _downloadFeedSequence.Aggregate(state, (current, op) => op(current));
 
-            throw new NotImplementedException();
+            return state.Elements;
         }
 
         internal DownloadFeedState IssueWebRequest(DownloadFeedState state)
@@ -57,16 +58,18 @@ namespace RussianDownloader.Logic
             return state;
         }
 
+        internal static DownloadFeedState ConvertStreamToXml(DownloadFeedState state)
+        {
+            state.Elements = new PodcastFeedReader().GetPodcastItems(state.FeedResponse.Result);
+            
+            return state;
+        }
+
         internal static ResourceAccessorOptions CreateResourceAccessorOptions()
         {
             var options = new ResourceAccessorOptions();
             options[UserAgentOptionName] = ITunesUserAgent;
             return options;
-        }
-
-        internal static DownloadFeedState ConvertStreamToXml(DownloadFeedState state)
-        {
-            throw new NotImplementedException();
         }
     }
 }

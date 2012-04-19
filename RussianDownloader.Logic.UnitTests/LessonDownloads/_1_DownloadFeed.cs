@@ -361,5 +361,25 @@
             // Assert
             elements.Should().HaveCount(2).And.Contain(elem => elem.Value == "as");
         }
+
+        [Test]
+        public void ConvertStreamToXml_should_convert_FeedResponse()
+        {
+            // Arrange
+            var state = new DownloadFeedState
+                {
+                    FeedResponse =
+                        Task<Stream>.Factory.StartNew(
+                            () =>
+                            new MemoryStream(
+                                @"<?xml version=""1.0""?><rss><channel><item>first</item></channel></rss>".AsBytes()))
+                };
+
+            // Act
+            var resultState = FeedDownloader.ConvertStreamToXml(state);
+
+            // Assert
+            resultState.Elements.Should().HaveCount(1);
+        }
     }
 }
